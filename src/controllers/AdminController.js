@@ -5,4 +5,8 @@ router.get("/users", (req, res) => {
     return res.json ({});
 })
 
+router.get("/movies", (req, res) => {
+    return res.json ({});
+})
+
 module.exports = router;
