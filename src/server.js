@@ -2,12 +2,10 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const movies = require('./controllers/AuthControllerM') ;
-const users = require('./controllers/AuthControllerU');
-
-const AuthControllerU = require("./controllers/AuthControllerU");
+const AuthController = require("./controllers/AuthControllerU");
 const AdminController = require("./controllers/AdminController");
 const authenticateMiddleware = require("./middleware/authenticate");
+const movies = require('./controllers/AuthControllerM') ;
 
 const app = express();
 
@@ -15,9 +13,8 @@ app.use(express.json());
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use("/auth", AuthControllerU)
+app.use("/auth", AuthController)
 app.use("/admin", authenticateMiddleware, AdminController);
-app.use("/users", users);
 app.use("/movies", validateUser, movies);
 
 function validateUser(req, res, next) {
