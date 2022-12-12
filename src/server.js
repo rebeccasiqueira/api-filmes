@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 const AuthController = require("./controllers/AuthControllerU");
 const AdminController = require("./controllers/AdminController");
 const authenticateMiddleware = require("./middleware/authenticate");
-const movies = require('./controllers/AuthControllerM') ;
+const authmovies = require('./controllers/AuthControllerM');
+const movies = require('./routers/movie.router');
+const actors = require('./routers/actor.router') ;
 
 const app = express();
 
@@ -15,7 +17,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use("/auth", AuthController)
 app.use("/admin", authenticateMiddleware, AdminController);
-app.use("/movies", validateUser, movies);
+app.use("/movies", validateUser, authmovies, movies);
+app.use("/actors", actors);
 
 function validateUser(req, res, next) {
     jwt.verify(req.headers['x-access-token'], req.app.get('secret'), function(err, decoded) {
